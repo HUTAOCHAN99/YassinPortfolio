@@ -88,7 +88,7 @@ class CardGallery extends HTMLElement {
         this.shadowRoot.querySelectorAll(".open-modal").forEach(link => {
             link.addEventListener("click", (e) => {
                 e.preventDefault();
-                modal.style.display = "flex"; // Pastikan hanya ditampilkan saat diklik
+                modal.style.display = "flex"; 
                 modalImg.src = e.target.closest("a").dataset.src;
             });
         });
