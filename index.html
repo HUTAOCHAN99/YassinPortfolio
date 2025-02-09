@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="./src/output.css">
     <script src="./assets/js/card-gallery.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 </head>
 <style>
     /* Import font */
@@ -32,6 +33,10 @@
         height: 100%;
         background-color: rgba(0, 0, 0, 0.5);
         overflow-x: hidden;
+    }
+
+    body {
+        background-color: #4e2f54;
     }
 
     /* animation  */
@@ -80,7 +85,7 @@
     .animate-bounce {
         animation: bounce 1s infinite ease-in-out;
     }
-    
+
 
     /* color theme */
     .bg-page1 {
@@ -137,8 +142,8 @@
 </style>
 
 <body class="">
-    <div class="content min-h-screen w-full bg-fixed bg-center bg-cover flex flex-col md:flex-row items-center justify-center text-white text-center"
-        style="background-image: url('./assets/img/bg2.jpg');">
+    <div class="animate-on-scroll content min-h-screen w-full bg-fixed bg-center bg-cover flex flex-col md:flex-row items-center justify-center text-white text-center"
+        style="background-image: url('./assets/img/bg2.jpg');" id="home">
 
         <!-- Foto di atas Nama & Tombol (Hanya di Mobile) -->
         <div class="w-full flex justify-center items-center sm:hidden fade-in">
@@ -176,7 +181,7 @@
     </div>
 
     <!-- Arrow untuk scroll ke bawah -->
-    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce" id="scrollArrow">
         <a href="#next" class="text-white text-4xl">&#8595;</a>
     </div>
 
@@ -196,11 +201,11 @@
 
 
         <!-- Timeline -->
-        <div id="akar" class="flex justify-center items-center mx-auto max-w-4xl bg-gray-100"></div>
+        <div id="akar" class="animate-on-scroll flex justify-center items-center mx-auto max-w-4xl bg-gray-100"></div>
         <script>
             function Jalur() {
                 return `
-                    <svg viewBox="0 0 600 300" class="w-full h-auto bg-page1">
+                    <svg viewBox="0 0 600 280" class="w-full h-auto bg-page1">
                         <line x1="140" y1="80" x2="520" y2="80" stroke="white" stroke-width="4" />
                         <line x1="76" y1="170" x2="520" y2="170" stroke="white" stroke-width="4" />
                         <path d="M 520 80 A 20 20 0 0 1 520 170" stroke="white" stroke-width="4" fill="transparent" />
@@ -242,7 +247,7 @@
             document.getElementById("akar").innerHTML = Jalur();
         </script>
         <!-- porfolio -->
-        <div class="relative min-h-screen flex items-center justify-center bg-page2 text-white">
+        <div class="animate-on-scroll relative min-h-screen flex items-center justify-center bg-page2 text-white">
             <!-- Background -->
             <img src="./assets/img/corel_draw.png" alt="CorelDRAW"
                 class="absolute top-0 right-0 w-24 opacity-50 sm:w-40">
@@ -261,7 +266,7 @@
                 <card-gallery></card-gallery>
             </div>
         </div>
-        <div class="flex flex-col items-center bg-page2 p-6 space-y-4">
+        <div class="animate-on-scroll flex flex-col items-center bg-page2 p-6 space-y-4">
             <img src="./assets/img/QRcode.png" alt="QRIS" class="w-48 rounded-lg shadow-lg">
             <a href="https://drive.google.com/drive/folders/1z9uYT_-U0uFJVHCTCM_n20huCd1K1VOZ"
                 class="text-blue-500 hover:underline font-semibold">
@@ -278,9 +283,48 @@
         </footer>
 </body>
 <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const scrollArrow = document.getElementById("scrollArrow");
+        const homeDiv = document.getElementById("home");
+
+        function checkScroll() {
+            if (!homeDiv) return; // Jika tidak ada elemen home, keluar dari fungsi
+
+            const homeRect = homeDiv.getBoundingClientRect(); // Ambil posisi home
+            const isVisible = homeRect.bottom > 100 && homeRect.top < window.innerHeight;
+
+            // Arrow hanya muncul saat home masih terlihat di viewport
+            scrollArrow.style.display = isVisible ? "block" : "none";
+        }
+
+        // Panggil fungsi saat halaman di-scroll
+        window.addEventListener("scroll", checkScroll);
+        window.addEventListener("resize", checkScroll); // Pastikan tetap update saat resize
+
+        // Jalankan saat pertama kali load
+        checkScroll();
+    });
+
     gsap.fromTo("#title1", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 1, delay: 0.2 });
     gsap.fromTo("#title2", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 1, delay: 0.5 });
     gsap.fromTo("#title3", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 1, delay: 0.8 });
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.utils.toArray(".animate-on-scroll").forEach((element) => {
+        gsap.fromTo(element,
+            { opacity: 0, y: 50 },
+            {
+                opacity: 1, y: 0, duration: 1, ease: "power2.out",
+                scrollTrigger: {
+                    trigger: element,
+                    start: "top 80%",
+                    toggleActions: "play none none none"
+                }
+            }
+        );
+    });
+
 </script>
 
 </html>
