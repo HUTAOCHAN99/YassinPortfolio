@@ -33,6 +33,7 @@
         height: 100%;
         background-color: rgba(0, 0, 0, 0.5);
         overflow-x: hidden;
+        scroll-behavior: smooth;
     }
 
     body {
@@ -82,11 +83,6 @@
         }
     }
 
-    .animate-bounce {
-        animation: bounce 1s infinite ease-in-out;
-    }
-
-
     /* color theme */
     .bg-page1 {
         background-color: #171616;
@@ -94,11 +90,6 @@
 
     .bg-page2 {
         background-color: #4e2f54;
-    }
-
-    /* Efek smooth scrolling */
-    html {
-        scroll-behavior: smooth;
     }
 
     .diamond-wrapper {
@@ -179,12 +170,16 @@
             </div>
         </div>
     </div>
-
-    <!-- Arrow untuk scroll ke bawah -->
-    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce" id="scrollArrow">
-        <a href="#next" class="text-white text-4xl">&#8595;</a>
+    <!-- Scroll Down Arrow -->
+    <div id="scrollArrow"
+        class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce transition-opacity duration-300">
+        <a href="#next">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="white"
+                class="w-10 h-10 hover:scale-110 transition-transform">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+        </a>
     </div>
-
     <!-- Section berikutnya -->
     <div class="h-screen bg-page1 items-center justify-center" id="next">
         <section class="text-center py-6 px-4">
@@ -274,36 +269,35 @@
             </a>
         </div>
 
-        <footer class="py-4 bg-gray-900 text-white text-center text-sm">
+        <div id="footer" class="py-4 bg-gray-900 text-white text-center text-sm">
             <p>&copy; 2025
                 <a href="https://github.com/HUTAOCHAN99" class="hover:text-gray-400 transition duration-300 ease-in-out"
                     target="_blank">HUTAOCHAN99</a>.
                 All Rights Reserved.
             </p>
-        </footer>
+        </div>
 </body>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const scrollArrow = document.getElementById("scrollArrow");
-        const homeDiv = document.getElementById("home");
+  document.addEventListener("DOMContentLoaded", () => {
+    const scrollArrow = document.getElementById("scrollArrow");
+    const homeSection = document.getElementById("home");
 
-        function checkScroll() {
-            if (!homeDiv) return; // Jika tidak ada elemen home, keluar dari fungsi
+    const observer = new IntersectionObserver(
+        ([entry]) => {
+            if (entry.isIntersecting) {
+                scrollArrow.style.opacity = "1";
+                scrollArrow.style.pointerEvents = "auto";
+            } else {
+                scrollArrow.style.opacity = "0";
+                scrollArrow.style.pointerEvents = "none";
+            }
+        },
+        { threshold: 0.5 } // Tombol akan hilang jika kurang dari 50% bagian `#home` terlihat
+    );
 
-            const homeRect = homeDiv.getBoundingClientRect(); // Ambil posisi home
-            const isVisible = homeRect.bottom > 100 && homeRect.top < window.innerHeight;
+    observer.observe(homeSection);
+});
 
-            // Arrow hanya muncul saat home masih terlihat di viewport
-            scrollArrow.style.display = isVisible ? "block" : "none";
-        }
-
-        // Panggil fungsi saat halaman di-scroll
-        window.addEventListener("scroll", checkScroll);
-        window.addEventListener("resize", checkScroll); // Pastikan tetap update saat resize
-
-        // Jalankan saat pertama kali load
-        checkScroll();
-    });
 
     gsap.fromTo("#title1", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 1, delay: 0.2 });
     gsap.fromTo("#title2", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 1, delay: 0.5 });
@@ -311,19 +305,40 @@
 
     gsap.registerPlugin(ScrollTrigger);
 
-    gsap.utils.toArray(".animate-on-scroll").forEach((element) => {
-        gsap.fromTo(element,
-            { opacity: 0, y: 50 },
-            {
-                opacity: 1, y: 0, duration: 1, ease: "power2.out",
-                scrollTrigger: {
-                    trigger: element,
-                    start: "top 80%",
-                    toggleActions: "play none none none"
-                }
-            }
-        );
+    document.addEventListener("DOMContentLoaded", () => {
+        const elements = gsap.utils.toArray(".animate-on-scroll");
+
+        elements.forEach((element) => {
+            let animation = gsap.fromTo(
+                element,
+                { opacity: 0, y: 50 },
+                { opacity: 1, y: 0, duration: 1, ease: "power2.out", paused: true, immediateRender: false }
+            );
+
+            ScrollTrigger.create({
+                trigger: element,
+                start: "top 80%",
+                toggleActions: "play none none none",
+                once: true,
+                onEnter: () => animation.play(),
+            });
+        });
+
+        window.onload = () => {
+            requestAnimationFrame(() => {
+                elements.forEach((element) => {
+                    if (element.getBoundingClientRect().top < window.innerHeight) {
+                        gsap.to(element, { opacity: 1, y: 0, duration: 1, ease: "power2.out" });
+                    }
+                });
+                ScrollTrigger.refresh();
+            });
+        };
     });
+
+    if ("scrollRestoration" in history) {
+        history.scrollRestoration = "manual";
+    }
 
 </script>
 
