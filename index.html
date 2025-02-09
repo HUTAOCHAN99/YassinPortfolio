@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./src/output.css">
     <script src="./assets/js/card-gallery.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
 <style>
     /* Import font */
@@ -23,7 +24,6 @@
         font-family: 'IntroRust';
     }
 
-    /* Pastikan tidak ada margin/padding default */
     body,
     html {
         margin: 0;
@@ -32,6 +32,54 @@
         height: 100%;
         background-color: rgba(0, 0, 0, 0.5);
     }
+
+    /* animation  */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes slideInRight {
+        from {
+            opacity: 0;
+            transform: translateX(50px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .fade-in {
+        animation: fadeIn 1s ease-out;
+    }
+
+    .slide-in-right {
+        animation: slideInRight 1s ease-out;
+    }
+
+    @keyframes bounce {
+
+        0%,
+        100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(10px);
+        }
+    }
+
+    .animate-bounce {
+        animation: bounce 1s infinite ease-in-out;
+    }
+    
 
     /* color theme */
     .bg-page1 {
@@ -47,19 +95,19 @@
         scroll-behavior: smooth;
     }
 
-    /* Styling untuk foto berbentuk belah ketupat */
     .diamond-wrapper {
         width: 60%;
         max-width: 420px;
         aspect-ratio: 1;
         background-color: black;
         border-radius: 20px;
-        overflow: hidden;
+        clip-path: inset(-500px 0 0 -500px);
         display: flex;
         justify-content: center;
         align-items: center;
         transform: rotate(45deg);
     }
+
 
     .diamond-frame {
         width: 100%;
@@ -68,11 +116,13 @@
     }
 
     .diamond-frame img {
-        width: 100%;
-        height: 100%;
+        width: 125%;
+        height: 125%;
         object-fit: cover;
-        transform: rotate(-45deg);
         position: absolute;
+        top: 0;
+        left: 0;
+        transform: rotate(-45deg);
     }
 
     /* Font styling */
@@ -90,9 +140,9 @@
         style="background-image: url('./assets/img/bg2.jpg');">
 
         <!-- Foto di atas Nama & Tombol (Hanya di Mobile) -->
-        <div class="w-full flex justify-center items-center sm:hidden">
+        <div class="w-full flex justify-center items-center sm:hidden fade-in">
             <div class="diamond-wrapper">
-                <div class="diamond-frame">
+                <div class="diamond-frame slide-in-right">
                     <img src="./assets/img/photo.png" alt="Photo">
                 </div>
             </div>
@@ -100,9 +150,12 @@
 
         <!-- Nama dan Tombol -->
         <div class="p-8 mt-4 w-full md:w-1/2 text-center md:text-left">
-            <h2 class="text-2xl font-quicksand md:text-3xl font-medium">I AM YASSIN AUDAH AL MUHARRAM</h2>
-            <h1 class="text-4xl font-libre md:text-7xl font-bold mt-2">GRAPHIC</h1>
-            <h1 class="text-4xl font-libre md:text-7xl font-bold mt-2">DESIGNER</h1>
+            <div class="w-full">
+                <h2 id="title1" class="text-2xl font-quicksand md:text-3xl font-medium opacity-0">I AM YASSIN AUDAH AL
+                    MUHARRAM</h2>
+                <h1 id="title2" class="text-4xl font-libre md:text-7xl font-bold mt-2 opacity-0">GRAPHIC</h1>
+                <h1 id="title3" class="text-4xl font-libre md:text-7xl font-bold mt-2 opacity-0">DESIGNER</h1>
+            </div>
             <div class="flex justify-center md:justify-start mt-4">
                 <a href="contact.html"
                     class="px-6 py-2 border-2 border-white text-white rounded-md hover:bg-white hover:text-black transition">
@@ -112,9 +165,9 @@
         </div>
 
         <!-- Foto di Samping (Hanya di Desktop) -->
-        <div class="w-full md:w-1/2 flex items-center justify-center hidden sm:flex">
+        <div class="w-full md:w-1/2 flex items-center justify-center hidden sm:flex fade-in">
             <div class="diamond-wrapper">
-                <div class="diamond-frame">
+                <div class="diamond-frame slide-in-right">
                     <img src="./assets/img/photo.png" alt="Photo">
                 </div>
             </div>
@@ -122,7 +175,7 @@
     </div>
 
     <!-- Arrow untuk scroll ke bawah -->
-    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
         <a href="#next" class="text-white text-4xl">&#8595;</a>
     </div>
 
@@ -190,9 +243,11 @@
         <!-- porfolio -->
         <div class="relative min-h-screen flex items-center justify-center bg-page2 text-white">
             <!-- Background -->
-            <img src="./assets/img/corel_draw.png" alt="CorelDRAW" class="absolute top-0 right-0 w-24 opacity-50 sm:w-40">
+            <img src="./assets/img/corel_draw.png" alt="CorelDRAW"
+                class="absolute top-0 right-0 w-24 opacity-50 sm:w-40">
             <img src="./assets/img/canva.png" alt="Canva" class="absolute top-30 -left-5 w-24 opacity-50 sm:w-40">
-            <img src="./assets/img/photoshop.png" alt="Photoshop" class="absolute bottom-4 right-12 w-24 opacity-50 sm:w-40">
+            <img src="./assets/img/photoshop.png" alt="Photoshop"
+                class="absolute bottom-4 right-12 w-24 opacity-50 sm:w-40">
 
             <div class="max-w-4xl">
                 <!-- Judul -->
@@ -203,16 +258,16 @@
 
                 <!-- Grid Portfolio -->
                 <card-gallery></card-gallery>
-            </div>          
+            </div>
         </div>
         <div class="flex flex-col items-center bg-page2 p-6 space-y-4">
             <img src="./assets/img/QRcode.png" alt="QRIS" class="w-48 rounded-lg shadow-lg">
-            <a href="https://drive.google.com/drive/folders/1z9uYT_-U0uFJVHCTCM_n20huCd1K1VOZ" 
-               class="text-blue-500 hover:underline font-semibold">
+            <a href="https://drive.google.com/drive/folders/1z9uYT_-U0uFJVHCTCM_n20huCd1K1VOZ"
+                class="text-blue-500 hover:underline font-semibold">
                 More my portfolio
             </a>
         </div>
-        
+
         <footer class="py-4 bg-gray-900 text-white text-center text-sm">
             <p>&copy; 2025
                 <a href="https://github.com/HUTAOCHAN99" class="hover:text-gray-400 transition duration-300 ease-in-out"
@@ -220,7 +275,11 @@
                 All Rights Reserved.
             </p>
         </footer>
-
 </body>
+<script>
+    gsap.fromTo("#title1", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 1, delay: 0.2 });
+    gsap.fromTo("#title2", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 1, delay: 0.5 });
+    gsap.fromTo("#title3", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 1, delay: 0.8 });
+</script>
 
 </html>
