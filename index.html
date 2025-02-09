@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="./assets/js/card-gallery.js" defer></script>
+</head>
+<style>
+    /* Import font */
+    @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Quicksand:wght@300;700&display=swap');
+
+    @font-face {
+        font-family: 'IntroRust';
+        src: url('./font/introrust-base.otf') format('opentype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    .font-intro_rust {
+        font-family: 'IntroRust';
+    }
+
+    /* Pastikan tidak ada margin/padding default */
+    body,
+    html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    /* color theme */
+    .bg-page1 {
+        background-color: #171616;
+    }
+
+    .bg-page2 {
+        background-color: #4e2f54;
+    }
+
+    /* Efek smooth scrolling */
+    html {
+        scroll-behavior: smooth;
+    }
+
+    /* Styling untuk foto berbentuk belah ketupat */
+    .diamond-wrapper {
+        width: 60%;
+        max-width: 420px;
+        aspect-ratio: 1;
+        background-color: black;
+        border-radius: 20px;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transform: rotate(45deg);
+    }
+
+    .diamond-frame {
+        width: 100%;
+        height: 100%;
+        position: relative;
+    }
+
+    .diamond-frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transform: rotate(-45deg);
+        position: absolute;
+    }
+
+    /* Font styling */
+    .font-libre {
+        font-family: 'Libre Baskerville', serif;
+    }
+
+    .font-quicksand {
+        font-family: 'Quicksand', sans-serif;
+    }
+</style>
+
+<body class="overflow-x-hidden">
+    <div class="content min-h-screen w-full bg-fixed bg-center bg-cover flex flex-col md:flex-row items-center justify-center text-white text-center"
+        style="background-image: url('./assets/img/bg2.jpg');">
+
+        <!-- Foto di atas Nama & Tombol (Hanya di Mobile) -->
+        <div class="w-full flex justify-center items-center sm:hidden">
+            <div class="diamond-wrapper">
+                <div class="diamond-frame">
+                    <img src="./assets/img/photo.png" alt="Photo">
+                </div>
+            </div>
+        </div>
+
+        <!-- Nama dan Tombol -->
+        <div class="p-8 mt-4 w-full md:w-1/2 text-center md:text-left">
+            <h2 class="text-2xl font-quicksand md:text-3xl font-medium">I AM YASSIN AUDAH AL MUHARRAM</h2>
+            <h1 class="text-4xl font-libre md:text-7xl font-bold mt-2">GRAPHIC</h1>
+            <h1 class="text-4xl font-libre md:text-7xl font-bold mt-2">DESIGNER</h1>
+            <div class="flex justify-center md:justify-start mt-4">
+                <a href="contact.html"
+                    class="px-6 py-2 border-2 border-white text-white rounded-md hover:bg-white hover:text-black transition">
+                    Contact Us
+                </a>
+            </div>
+        </div>
+
+        <!-- Foto di Samping (Hanya di Desktop) -->
+        <div class="w-full md:w-1/2 flex items-center justify-center hidden sm:flex">
+            <div class="diamond-wrapper">
+                <div class="diamond-frame">
+                    <img src="./assets/img/photo.png" alt="Photo">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Arrow untuk scroll ke bawah -->
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+        <a href="#next" class="text-white text-4xl">&#8595;</a>
+    </div>
+
+    <!-- Section berikutnya -->
+    <div class="h-screen bg-page1 items-center justify-center" id="next">
+        <section class="text-center py-6 px-4">
+            <h2 class="text-orange-500 font-intro_rust text-xl font-bold mb-4 sm:text-2xl">
+                ABOUT ME
+            </h2>
+            <p
+                class="max-w-4xl mx-auto text-md leading-relaxed text-white sm:text-base text-justify md:text-lg lg:text-xl ">
+                An undergraduate student of Arabic Literature at Sebelas Maret University, has skills in design,
+                writing, and photo editing. Experienced in the field of media for publications during internships and
+                organization involvement.
+            </p>
+        </section>
+
+
+        <!-- Timeline -->
+        <div id="akar" class="flex justify-center items-center mx-auto max-w-4xl bg-gray-100"></div>
+        <script>
+            function Jalur() {
+                return `
+                    <svg viewBox="0 0 600 300" class="w-full h-auto bg-page1">
+                        <line x1="140" y1="80" x2="520" y2="80" stroke="white" stroke-width="4" />
+                        <line x1="76" y1="170" x2="520" y2="170" stroke="white" stroke-width="4" />
+                        <path d="M 520 80 A 20 20 0 0 1 520 170" stroke="white" stroke-width="4" fill="transparent" />
+                        <circle cx="140" cy="80" r="12" fill="rgba(255,130,16,255)" />
+                        <circle cx="400" cy="80" r="12" fill="rgba(255,130,16,255)" />
+                        <circle cx="180" cy="170" r="12" fill="rgba(255,130,16,255)" />
+                        <circle cx="340" cy="170" r="12" fill="rgba(255,130,16,255)" />
+                        <circle cx="520" cy="170" r="12" fill="rgba(255,130,16,255)" />
+                        <circle cx="76" cy="170" r="6" fill="#D3D3D3">
+                            <animate attributeName="fill" values="#D3D3D3; #A0A0A0; #808080; #505050; #D3D3D3" dur="3s" repeatCount="indefinite" />
+                        </circle>
+                        <circle cx="60" cy="170" r="6" fill="#A0A0A0">
+                            <animate attributeName="fill" values="#A0A0A0; #808080; #505050; #D3D3D3; #A0A0A0" dur="3s" repeatCount="indefinite" />
+                        </circle>
+                        <circle cx="44" cy="170" r="6" fill="#808080">
+                            <animate attributeName="fill" values="#808080; #505050; #D3D3D3; #A0A0A0; #808080" dur="3s" repeatCount="indefinite" />
+                        </circle>
+                        <circle cx="28" cy="170" r="6" fill="#505050">
+                            <animate attributeName="fill" values="#505050; #D3D3D3; #A0A0A0; #808080; #505050" dur="3s" repeatCount="indefinite" />
+                        </circle>
+                        <text x="180" y="110" font-size="12" text-anchor="middle" fill="white">Assistant editor CMES 2024</text>
+                        <text x="403" y="110" font-size="12" text-anchor="middle" fill="white">Head of Division of Media and
+                            <tspan x="400" y="130">Information SKI FIB UNS 2025</tspan>
+                        </text>
+                        <text x="140" y="200" font-size="12" text-anchor="middle" fill="white">Akspro media editor
+                            <tspan x="140" y="220">BEM FIB UNS 2025</tspan>
+                        </text>
+                        <text x="300" y="200" font-size="12" text-anchor="middle" fill="white">Freelance editor with
+                            <tspan x="305" y="220">2M (Makasih Mas)</tspan>
+                        </text>
+                        <text x="460" y="200" font-size="12" text-anchor="middle" fill="white">Head of Division of Internship
+                            <tspan x="455" y="220">Media and Information Virtual</tspan>
+                            <tspan x="480" y="240">Education Academy</tspan>
+                        </text>
+                        <text x="50" y="185" font-size="8" text-anchor="middle" fill="white">soon...</text>
+                    </svg>
+                `;
+            }
+            document.getElementById("akar").innerHTML = Jalur();
+        </script>
+        <!-- porfolio -->
+        <div class="relative min-h-screen flex items-center justify-center bg-page2 text-white">
+            <!-- Background -->
+            <img src="./assets/img/corel_draw.png" alt="CorelDRAW" class="absolute top-0 right-0 w-24 opacity-50 sm:w-40">
+            <img src="./assets/img/canva.png" alt="Canva" class="absolute top-30 -left-5 w-24 opacity-50 sm:w-40">
+            <img src="./assets/img/photoshop.png" alt="Photoshop" class="absolute bottom-4 right-12 w-24 opacity-50 sm:w-40">
+
+            <div class="max-w-4xl">
+                <!-- Judul -->
+                <div class="w-full flex flex-col items-center text-center mt-8">
+                    <h2 class="text-4xl font-intro_rust font-bold sm:text-6xl">MY</h2>
+                    <h2 class="text-3xl font-intro_rust font-bold sm:text-5xl text-purple-300">PORTFOLIO</h2>
+                </div>
+
+                <!-- Grid Portfolio -->
+                <card-gallery></card-gallery>
+            </div>          
+        </div>
+        <div class="flex flex-col items-center bg-page2 p-6 space-y-4">
+            <img src="./assets/img/QRcode.png" alt="QRIS" class="w-48 rounded-lg shadow-lg">
+            <a href="https://drive.google.com/drive/folders/1z9uYT_-U0uFJVHCTCM_n20huCd1K1VOZ" 
+               class="text-blue-500 hover:underline font-semibold">
+                More my portfolio
+            </a>
+        </div>
+        
+        <footer class="py-4 bg-gray-900 text-white text-center text-sm">
+            <p>&copy; 2025
+                <a href="https://github.com/HUTAOCHAN99" class="hover:text-gray-400 transition duration-300 ease-in-out"
+                    target="_blank">HUTAOCHAN99</a>.
+                All Rights Reserved.
+            </p>
+        </footer>
+
+</body>
+
+</html>
