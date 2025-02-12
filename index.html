@@ -83,6 +83,22 @@
         }
     }
 
+    @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 1s ease-out forwards;
+        }
+
     /* color theme */
     .bg-page1 {
         background-color: #171616;
@@ -162,7 +178,7 @@
         </div>
 
         <!-- Foto di Samping (Hanya di Desktop) -->
-        <div class="w-full md:w-1/2 flex items-center justify-center hidden sm:flex fade-in">
+        <div class="w-full md:w-1/2 items-center justify-center hidden sm:flex fade-in">
             <div class="diamond-wrapper">
                 <div class="diamond-frame slide-in-right">
                     <img src="./assets/img/photo.png" alt="Photo">
@@ -200,7 +216,7 @@
         <script>
             function Jalur() {
                 return `
-                    <svg viewBox="0 0 600 280" class="w-full h-auto bg-page1">
+                    <svg viewBox="0 40 600 250" class="w-full h-auto bg-page1">
                         <line x1="140" y1="80" x2="520" y2="80" stroke="white" stroke-width="4" />
                         <line x1="76" y1="170" x2="520" y2="170" stroke="white" stroke-width="4" />
                         <path d="M 520 80 A 20 20 0 0 1 520 170" stroke="white" stroke-width="4" fill="transparent" />
@@ -242,7 +258,7 @@
             document.getElementById("akar").innerHTML = Jalur();
         </script>
         <!-- porfolio -->
-        <div class="animate-on-scroll relative min-h-screen flex items-center justify-center bg-page2 text-white">
+        <div class="relative min-h-screen flex items-center justify-center bg-page2 text-white">
             <!-- Background -->
             <img src="./assets/img/corel_draw.png" alt="CorelDRAW"
                 class="absolute top-0 right-0 w-24 opacity-50 sm:w-40">
@@ -261,6 +277,7 @@
                 <card-gallery></card-gallery>
             </div>
         </div>
+        
         <div class="animate-on-scroll flex flex-col items-center bg-page2 p-6 space-y-4">
             <img src="./assets/img/QRcode.png" alt="QRIS" class="w-48 rounded-lg shadow-lg">
             <a href="https://drive.google.com/drive/folders/1z9uYT_-U0uFJVHCTCM_n20huCd1K1VOZ"
@@ -278,7 +295,7 @@
         </div>
 </body>
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", () => {
     const scrollArrow = document.getElementById("scrollArrow");
     const homeSection = document.getElementById("home");
 
@@ -298,6 +315,44 @@
     observer.observe(homeSection);
 });
 
+  document.addEventListener("DOMContentLoaded", () => {
+    const elements = document.querySelectorAll(".fade-in-up");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("fade-in-up");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    elements.forEach((element) => {
+      observer.observe(element);
+    });
+  });
+  document.addEventListener("DOMContentLoaded", () => {
+    const scrollArrow = document.getElementById("scrollArrow");
+    const homeSection = document.getElementById("home");
+
+    const observer = new IntersectionObserver(
+        ([entry]) => {
+            if (entry.isIntersecting) {
+                scrollArrow.style.opacity = "1";
+                scrollArrow.style.pointerEvents = "auto";
+            } else {
+                scrollArrow.style.opacity = "0";
+                scrollArrow.style.pointerEvents = "none";
+            }
+        },
+        { threshold: 0.5 } // Tombol akan hilang jika kurang dari 50% bagian `#home` terlihat
+    );
+
+    observer.observe(homeSection);
+});
 
     gsap.fromTo("#title1", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 1, delay: 0.2 });
     gsap.fromTo("#title2", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 1, delay: 0.5 });

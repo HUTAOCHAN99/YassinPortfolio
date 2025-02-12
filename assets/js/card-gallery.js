@@ -14,15 +14,13 @@ class CardGallery extends HTMLElement {
              display: none;
              position: fixed; 
              z-index: 1000;
-             left: 50%;
-             top: 50%;
+             left: 0;
+             top: 0;
              width: 100%;
-             height: 100%;
+             height: 100vh;
              background: rgba(0, 0, 0, 0.8);
-             display: none;
              align-items: center;
              justify-content: center;
-             transform: translate(-50%, -50%); /* Pastikan posisi tetap di tengah */
             }
 
                 .modal img {
@@ -37,6 +35,13 @@ class CardGallery extends HTMLElement {
                     font-size: 30px;
                     color: white;
                     cursor: pointer;
+                }
+                body.modal-open {
+                    overflow: hidden;
+                    pointer-events: none; /* Disable all interactions */
+                }
+                body.modal-open .modal {
+                    pointer-events: auto; /* Enable interactions within the modal */
                 }
             </style>
             <section class="mt-4 mb-5">
@@ -97,18 +102,30 @@ class CardGallery extends HTMLElement {
         e.preventDefault();
         modal.style.display = "flex";
         modalImg.src = e.target.closest("a").dataset.src;
+        window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top
+        document.body.classList.add("modal-open"); // Prevent scrolling and interactions
       });
     });
 
     // Event untuk menutup modal
     closeModal.addEventListener("click", () => {
       modal.style.display = "none";
+      document.body.classList.remove("modal-open"); // Allow scrolling and interactions
     });
 
     // Tutup modal saat klik di luar gambar
     modal.addEventListener("click", (e) => {
       if (e.target === modal) {
         modal.style.display = "none";
+        document.body.classList.remove("modal-open"); // Allow scrolling and interactions
+      }
+    });
+
+    // Tutup modal saat halaman di-scroll
+    window.addEventListener("scroll", () => {
+      if (modal.style.display === "flex") {
+        modal.style.display = "none";
+        document.body.classList.remove("modal-open"); // Allow scrolling and interactions
       }
     });
   }
